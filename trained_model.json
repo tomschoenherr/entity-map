@@ -1,0 +1,385 @@
+{
+    "link_type": "link_only",
+    "probability_two_random_records_match": 1.3098606308288798e-05,
+    "retain_matching_columns": true,
+    "retain_intermediate_calculation_columns": true,
+    "additional_columns_to_retain": [],
+    "sql_dialect": "duckdb",
+    "linker_uid": "5m6sp22t",
+    "em_convergence": 0.0001,
+    "max_iterations": 25,
+    "bayes_factor_column_prefix": "bf_",
+    "term_frequency_adjustment_column_prefix": "tf_",
+    "comparison_vector_value_column_prefix": "gamma_",
+    "unique_id_column_name": "unique_id",
+    "source_dataset_column_name": "source_dataset",
+    "blocking_rules_to_generate_predictions": [
+        {
+            "blocking_rule": "(l.\"zipcode\" = r.\"zipcode\") AND (l.\"area_code\" = r.\"area_code\")",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "(l.\"state\" = r.\"state\") AND (l.\"city\" = r.\"city\") AND (l.\"area_code\" = r.\"area_code\")",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "(l.\"state\" = r.\"state\") AND (l.\"city\" = r.\"city\")",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "(l.\"name\" = r.\"name\") AND (l.\"iso\" = r.\"iso\")",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "(l.\"street_name\" = r.\"street_name\") AND (l.\"iso\" = r.\"iso\")",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "(l.\"state\" = r.\"state\") AND (l.\"area_code\" = r.\"area_code\")",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "(l.\"city\" = r.\"city\") AND (l.\"area_code\" = r.\"area_code\")",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "l.\"city\" = r.\"city\"",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "l.\"zipcode\" = r.\"zipcode\"",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "l.\"area_code\" = r.\"area_code\"",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "(LEFT(l.name, 8) = LEFT(r.name, 8)) AND (l.\"iso\" = r.\"iso\")",
+            "sql_dialect": "duckdb"
+        }
+    ],
+    "comparisons": [
+        {
+            "output_column_name": "name",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"name_l\" IS NULL OR \"name_r\" IS NULL",
+                    "label_for_charts": "name is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"name_l\" = \"name_r\"",
+                    "label_for_charts": "Exact match on name",
+                    "m_probability": 0.001333236773569766,
+                    "u_probability": 5.900312167678638e-06,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "jaro_winkler_similarity(\"name_l\", \"name_r\") >= 0.92",
+                    "label_for_charts": "Jaro-Winkler distance of name >= 0.92",
+                    "m_probability": 0.0009284011370656636,
+                    "u_probability": 3.2559529935263184e-05,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "jaro_winkler_similarity(\"name_l\", \"name_r\") >= 0.88",
+                    "label_for_charts": "Jaro-Winkler distance of name >= 0.88",
+                    "m_probability": 0.0033386270844652827,
+                    "u_probability": 0.00017564700059297158,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "jaro_winkler_similarity(\"name_l\", \"name_r\") >= 0.7",
+                    "label_for_charts": "Jaro-Winkler distance of name >= 0.7",
+                    "m_probability": 0.028632905310152217,
+                    "u_probability": 0.01099216395418927,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.9657668296947473,
+                    "u_probability": 0.9887937292031148,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "JaroWinklerAtThresholds"
+        },
+        {
+            "output_column_name": "street_name",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"street_name_l\" IS NULL OR \"street_name_r\" IS NULL",
+                    "label_for_charts": "street_name is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"street_name_l\" = \"street_name_r\"",
+                    "label_for_charts": "Exact match on street_name",
+                    "m_probability": 0.0027551304970358306,
+                    "u_probability": 0.000110944343464289,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "jaro_winkler_similarity(\"street_name_l\", \"street_name_r\") >= 0.92",
+                    "label_for_charts": "Jaro-Winkler distance of street_name >= 0.92",
+                    "m_probability": 0.004486191833928421,
+                    "u_probability": 0.00013797485351649844,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "jaro_winkler_similarity(\"street_name_l\", \"street_name_r\") >= 0.88",
+                    "label_for_charts": "Jaro-Winkler distance of street_name >= 0.88",
+                    "m_probability": 0.0034436247367193315,
+                    "u_probability": 0.00025877738299982854,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "jaro_winkler_similarity(\"street_name_l\", \"street_name_r\") >= 0.7",
+                    "label_for_charts": "Jaro-Winkler distance of street_name >= 0.7",
+                    "m_probability": 0.016715334872406996,
+                    "u_probability": 0.0033806820417797874,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.9725997180599094,
+                    "u_probability": 0.9961116213782396,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "JaroWinklerAtThresholds"
+        },
+        {
+            "output_column_name": "websiteurl",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"websiteurl_l\" IS NULL OR \"websiteurl_r\" IS NULL",
+                    "label_for_charts": "websiteurl is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"websiteurl_l\" = \"websiteurl_r\"",
+                    "label_for_charts": "Exact match on websiteurl",
+                    "m_probability": 0.003158381930092031,
+                    "u_probability": 7.967933679952428e-06,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "jaro_similarity(\"websiteurl_l\", \"websiteurl_r\") >= 0.9",
+                    "label_for_charts": "Jaro distance of 'websiteurl >= 0.9'",
+                    "m_probability": 0.002612407848291459,
+                    "u_probability": 0.00058417534821967,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "jaro_similarity(\"websiteurl_l\", \"websiteurl_r\") >= 0.7",
+                    "label_for_charts": "Jaro distance of 'websiteurl >= 0.7'",
+                    "m_probability": 0.6367210492379369,
+                    "u_probability": 0.5712098426626654,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.35750816098367955,
+                    "u_probability": 0.428198014055435,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "JaroAtThresholds"
+        },
+        {
+            "output_column_name": "address_number",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"address_number_l\" IS NULL OR \"address_number_r\" IS NULL",
+                    "label_for_charts": "address_number is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"address_number_l\" = \"address_number_r\"",
+                    "label_for_charts": "Exact match on address_number",
+                    "m_probability": 0.0044810947794922526,
+                    "u_probability": 0.001106822456754474,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "damerau_levenshtein(\"address_number_l\", \"address_number_r\") <= 1",
+                    "label_for_charts": "Damerau-Levenshtein distance of address_number <= 1",
+                    "m_probability": 0.029768131783661576,
+                    "u_probability": 0.0234774907397333,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "damerau_levenshtein(\"address_number_l\", \"address_number_r\") <= 2",
+                    "label_for_charts": "Damerau-Levenshtein distance of address_number <= 2",
+                    "m_probability": 0.183322245075143,
+                    "u_probability": 0.1602157251413512,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.7824285283617032,
+                    "u_probability": 0.815199961662161,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "Exact match 'address_number' vs. Damerau-Levenshtein distance at thresholds 1, 2 vs. anything else"
+        },
+        {
+            "output_column_name": "zipcode",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"zipcode_l\" IS NULL OR \"zipcode_r\" IS NULL",
+                    "label_for_charts": "zipcode is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"zipcode_l\" = \"zipcode_r\"",
+                    "label_for_charts": "Exact match on zipcode",
+                    "m_probability": 0.04692410470047563,
+                    "u_probability": 7.858021451863484e-05,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "tf_adjustment_column": "zipcode",
+                    "tf_adjustment_weight": 1.0
+                },
+                {
+                    "sql_condition": "damerau_levenshtein(\"zipcode_l\", \"zipcode_r\") <= 1",
+                    "label_for_charts": "Damerau-Levenshtein distance of zipcode <= 1",
+                    "m_probability": 0.178765467292375,
+                    "u_probability": 0.0009241583594652678,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "damerau_levenshtein(\"zipcode_l\", \"zipcode_r\") <= 2",
+                    "label_for_charts": "Damerau-Levenshtein distance of zipcode <= 2",
+                    "m_probability": 0.4009512344816199,
+                    "u_probability": 0.012061336749585228,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.3733591935255295,
+                    "u_probability": 0.9869359246764309,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "Exact match 'zipcode' vs. Damerau-Levenshtein distance at thresholds 1, 2 vs. anything else"
+        },
+        {
+            "output_column_name": "area_code",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"area_code_l\" IS NULL OR \"area_code_r\" IS NULL",
+                    "label_for_charts": "area_code is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"area_code_l\" = \"area_code_r\"",
+                    "label_for_charts": "Exact match on area_code",
+                    "m_probability": 0.6924451902155279,
+                    "u_probability": 0.0020698584930322964,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "tf_adjustment_column": "area_code",
+                    "tf_adjustment_weight": 1.0
+                },
+                {
+                    "sql_condition": "damerau_levenshtein(\"area_code_l\", \"area_code_r\") <= 1",
+                    "label_for_charts": "Damerau-Levenshtein distance of area_code <= 1",
+                    "m_probability": 0.006795617022956022,
+                    "u_probability": 0.03683133267516139,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "damerau_levenshtein(\"area_code_l\", \"area_code_r\") <= 2",
+                    "label_for_charts": "Damerau-Levenshtein distance of area_code <= 2",
+                    "m_probability": 0.08813035975095326,
+                    "u_probability": 0.3159744327880348,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.21262883301056293,
+                    "u_probability": 0.6451243760437715,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "Exact match 'area_code' vs. Damerau-Levenshtein distance at thresholds 1, 2 vs. anything else"
+        },
+        {
+            "output_column_name": "iso",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"iso_l\" IS NULL OR \"iso_r\" IS NULL",
+                    "label_for_charts": "iso is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"iso_l\" = \"iso_r\"",
+                    "label_for_charts": "Exact match on iso",
+                    "m_probability": 0.999895067702681,
+                    "u_probability": 0.318184676855817,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "tf_adjustment_column": "iso",
+                    "tf_adjustment_weight": 1.0
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.00010493229731912069,
+                    "u_probability": 0.681815323144183,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "ExactMatch"
+        }
+    ]
+}

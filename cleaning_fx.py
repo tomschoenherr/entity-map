@@ -301,6 +301,9 @@ def clean_df(df):
             # Convert to string
             clean_df[col] = clean_df[col].astype(str)
             
+             # Replace 'nan' strings with actual NaN values
+            clean_df[col] = clean_df[col].replace('nan', np.nan)
+
             # Trim whitespace
             clean_df[col] = clean_df[col].str.strip()
             
@@ -348,9 +351,6 @@ def format_procurement(company_df, geo_df):
                            "vendor_id": "unique_id"}, inplace=True)
 
     df_clean = clean_df(data_df)
-
-    used_columns = ['unique_id', 'name', 'iso', 'state', 'city', 'zipcode', 'address_number', 'street_name', 'websiteurl', 'area_code']
-    df_clean = df_clean[used_columns]
 
     return df_clean
 
