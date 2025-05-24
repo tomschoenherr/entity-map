@@ -6,6 +6,7 @@ A Python solution for mapping entities between disparate datasets using probabil
 
 The project implements an automated entity linkage system that maps companies from procurement data (`a__company.csv`) to corresponding entities in finance data (`b__company.csv`). It uses the Splink probabilistic record linkage library to achieve high-precision matching based on multiple attributes including company names, addresses, and contact information.
 
+Note: The full pipeline (training + prediction) takes ~10 minutes to run
 ## Requirements
 
 ### Python Dependencies

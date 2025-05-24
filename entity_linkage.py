@@ -9,6 +9,17 @@ from cleaning_fx import format_finance, format_procurement
 
 
 def load_data():
+    """
+    Args:
+        None
+    Returns:
+        pandas df (proc_company)
+        pandas df (proc_geo)
+        pandas df (fin_company)
+        pandas df (fin_hierarchy)
+        pandas df (fin_address)
+
+    """
     data_path = "data/"
     proc_company = pd.read_csv(os.path.join(data_path, "a__company.csv"))
     proc_geo = pd.read_csv(os.path.join(data_path, "a__geo.csv"))

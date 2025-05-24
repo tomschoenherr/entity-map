@@ -180,35 +180,43 @@ abbr_mappings = {
 
 def remove_abbreviations_and_full_forms(text, abbreviation_dict):
     """
-    Remove both abbreviated and full forms of words from a text string.
-    Creates a set of all words to remove (both keys and values from the mapping).
+    Args:
+        proc_data (pandas df): Cleaned / preprocessed procurement data
+        fin_data (pandas df): Cleaned / preprocessed financial data
+    Returns:
+        string (cleaned string): A string with common abbreviations and their full forms removed
+        e.g. both "penn ave" and "penn avenue" become just "penn"
     """
     if pd.isna(text):
         return text
     
     text_str = str(text).lower()
     
-    # Create a set of all words to remove (both abbreviations and their full forms)
+    # Create a set of all words to remove 
     words_to_remove = set()
     for abbr, full_form in abbreviation_dict.items():
         words_to_remove.add(abbr)
         words_to_remove.add(full_form)
     
-    # Split into words and keep only words that are NOT in our removal set
+    # Split into words and keep only words that are NOT in removal set
     words = text_str.split()
     cleaned_words = []
     
     for word in words:
-        # Keep the word only if it's NOT in our removal set
+        # Keep the word only if it's NOT in removal set
         if word not in words_to_remove:
             cleaned_words.append(word)
-    
-    return ' '.join(cleaned_words)
+    cleaned_string = ' '.join(cleaned_words)
+    return cleaned_string
 
 
 def remove_duplicates(df, id_col='b_entity_id'):
     """
-    Remove duplicate rows based on id_col, keeping the row with least missing data.
+    Args:
+        df (pandas df): dataframe with duplicate unique ids 
+        id_col (string): which column to use for duplicate detection
+    Returns:
+        pandas df (df_deduplicated): df with duplicates removed
     """
     # Count missing values for each row
     df['missing_count'] = df.isnull().sum(axis=1)
@@ -226,12 +234,18 @@ def remove_duplicates(df, id_col='b_entity_id'):
 
 
 def extract_address_parts(address):
-    """Extract address number and street name from a single address string."""
+    """
+    Args:
+        address (string): address that may or may not have leading numbers
+    Returns:
+        string (number_part): leading street number ID
+        string (street_part): The rest of the address name
+    """
     if pd.isna(address) or address == '':
         return np.nan, np.nan
     
     address_str = str(address).strip()
-    match = re.match(r'^(\d+[A-Za-z]?(?:[-/]\d+[A-Za-z]?)*(?:\s+\d+/\d+)?)\s+(.+)$', address_str)
+    match = re.match(r'^(\d+)\s+(.+)$', address_str)
     
     if match:
         number_part = match.group(1).strip()
@@ -241,19 +255,33 @@ def extract_address_parts(address):
         return np.nan, address_str
 
 def split_address(df, address_col='address', number_col='address_number', street_col='street_name'):
-    """Split an address column into address number and street name."""
+    """
+    Args:
+        df (pandas df): df that contains an address column 
+        address_col (string): existing column ID for address
+        number_col (string): new column  ID for address number
+        street_col (string): new column ID for street name
+    Returns:
+        pandas df (df_copy): modified dataframe that has address split into two new columns
+    """
+    
     df_copy = df.copy()
     df_copy[[number_col, street_col]] = df_copy[address_col].apply(
         lambda x: pd.Series(extract_address_parts(x))
     )
     return df_copy
 
-
-
 def clean_df(df):
     """
     Clean and standardize dataframe columns for entity matching.
-    Removes special characters first, then removes abbreviations and their full forms.
+    Trims whitespace; remove special characers, abbreviations, duplicates; split address into two parts
+    Retains only the first 3 numbers of area code 
+
+    Args:
+        df (pandas df): df that contains an address column 
+    Returns:
+        pandas df (clean_df): processed dataframe
+
     """
     
     # Create a copy to avoid modifying the original
@@ -270,19 +298,16 @@ def clean_df(df):
         
         # Process string columns
         if dtype == 'object':
-            # Step 1: Convert to string (handles any non-string objects)
+            # Convert to string
             clean_df[col] = clean_df[col].astype(str)
             
-            # Step 2: Replace 'nan' strings with actual NaN values
-            clean_df[col] = clean_df[col].replace('nan', np.nan)
-                
-            # Step 3: Trim whitespace
+            # Trim whitespace
             clean_df[col] = clean_df[col].str.strip()
             
-            # Step 4: Remove special characters FIRST (keeping spaces, letters, numbers)
+            # Remove special characters FIRST (keeping spaces, letters, numbers)
             clean_df[col] = clean_df[col].str.replace(r'[^\w\s]', '', regex=True)
             
-            # Step 5: Remove abbreviations and their full forms AFTER special character removal
+            # Remove abbreviations and their full forms AFTER special character removal
             clean_df[col] = clean_df[col].apply(
                 lambda x: remove_abbreviations_and_full_forms(x, abbr_mappings)
             )
@@ -301,7 +326,12 @@ def clean_df(df):
 
 def format_procurement(company_df, geo_df):
     """
-    Formats procurement data 
+    Args:
+        company_df (pandas df): procuremnt "company" information
+        geo_df (pandas df): procurement "geo" information
+    Returns:
+        pandas df (df_clean): processed dataframe
+
     """
 
     company_df['zipcode'] = company_df['zipcode'].replace(['0', 0], np.nan)
@@ -326,7 +356,12 @@ def format_procurement(company_df, geo_df):
 
 def format_finance(company_df, hierarchy_df, address_df):
     """
-    Formats finance data
+    Args:
+        company_df (pandas df): finance "company" information
+        hierarchy_df (pandas df): finance "hierarchy" information
+        address_df (pandas df) finace "address" information
+    Returns:
+        pandas df (df_clean): processed dataframe
     """
 
     # merge hierarchy_df and company_df by the b_entity_id

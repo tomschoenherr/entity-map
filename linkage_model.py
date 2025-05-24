@@ -6,12 +6,11 @@ import numpy as np
 class LinkageModel():
     """
     LinkageModel uses splink to build a probabilistic linkage model between procurement and financial records
+    Use this class to train the model and predict the probability of 2 records representing the same company
+
+    Uses multiple fuzzy matching rules and a variety of blocking setups to balance comparison number with computational time
     
     """
-
-
-
-
 
     def __init__(self, proc_data, fin_data):
         """
@@ -71,7 +70,12 @@ class LinkageModel():
         self.linker = Linker([proc_data, fin_data], settings, db_api=db_api)
 
     def fit(self):
-
+        """
+        Args:
+            self  (LinkageModel object)
+        Returns:
+            None
+        """
         # estimate u (random matching probabilities) of entries
         self.linker.training.estimate_u_using_random_sampling(max_pairs=1e8)
 
@@ -85,6 +89,12 @@ class LinkageModel():
         )
 
     def predict(self):
+        """
+        Args:
+            self  (LinkageModel object)
+        Returns:
+            pandas dataframe (pred_df) The dataframe of predicted values. Contains all features for any comparisons needed
+        """
         predictions = self.linker.inference.predict()
         self.pred_df = predictions.as_pandas_dataframe()
 
