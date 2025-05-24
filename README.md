@@ -11,7 +11,7 @@ Note: The full pipeline (training + prediction) takes ~10 minutes to run
 
 ### Python Dependencies
 
-Developed with python 
+Developed with python 3.13.3 (may work with earlier versions, though)
 ```bash
 pip install requirements.txt
 ```
